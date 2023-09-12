@@ -1,12 +1,9 @@
 import React, { useState, useCallback } from "react";
 import { useMap, FeatureGroup, useMapEvents } from "react-leaflet";
 import _ from "lodash";
-import FirstGrids from "./FirstGrids";
-import SecondGrids from "./SecondGrids";
-import ThirdGrids from "./ThirdGrids";
-interface GridsProps {}
+import Grid from "./Grid";
 
-const Grids: React.FC<GridsProps> = () => {
+const Grids: React.FC = () => {
   const map = useMap();
   const [zoom, setZoom] = useState<number>(map.getZoom());
   // 地图缩放的回调
@@ -16,23 +13,42 @@ const Grids: React.FC<GridsProps> = () => {
     },
   });
 
+  // 获得地图边界
+  const bounds = map.getBounds();
+  // 纬线起点
+  const latStart = Math.floor(bounds.getSouth());
+  // 纬线终点
+  const latEnd = Math.ceil(bounds.getNorth());
+  // 经线起点
+  const lngStart = Math.floor(bounds.getWest());
+  // 经线终点
+  // 多画1度，防止有空白区域
+  const lngEnd = Math.floor(bounds.getEast()) + 1;
+
+  const range: GridRangeType = {
+    latStart,
+    latEnd,
+    lngStart,
+    lngEnd,
+  };
+
   const renderGrids = () => {
     switch (zoom) {
       case 8:
-        return <FirstGrids lineWidth={1}></FirstGrids>;
+        return <Grid lineWidth={1} range={range} D={0.5}></Grid>;
       case 9:
         return (
           <>
-            <FirstGrids lineWidth={1.5}></FirstGrids>
-            <SecondGrids lineWidth={0.6}></SecondGrids>
+            <Grid lineWidth={1.5} range={range} D={0.5}></Grid>
+            <Grid lineWidth={0.6} range={range} D={0.25}></Grid>
           </>
         );
       case 10:
         return (
           <>
-            <FirstGrids lineWidth={1.5}></FirstGrids>
-            <SecondGrids lineWidth={0.8}></SecondGrids>
-            <ThirdGrids lineWidth={0.3}></ThirdGrids>
+            <Grid lineWidth={1.5} range={range} D={0.5}></Grid>
+            <Grid lineWidth={0.8} range={range} D={0.25}></Grid>
+            <Grid lineWidth={0.3} range={range} D={0.25 / 3}></Grid>
           </>
         );
       default:

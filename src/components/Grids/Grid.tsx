@@ -2,24 +2,9 @@ import React, { useState, useCallback } from "react";
 import { useMap, FeatureGroup, Polyline } from "react-leaflet";
 import _ from "lodash";
 
-const FirstGrids: React.FC<GridsProps> = (props) => {
-  const { lineWidth } = props;
-  const map = useMap();
-
-  // 获得地图边界
-  const bounds = map.getBounds();
-  // 纬线起点
-  const latStart = Math.floor(bounds.getSouth());
-  // 纬线终点
-  const latEnd = Math.ceil(bounds.getNorth());
-  // 经线起点
-  const lngStart = Math.floor(bounds.getWest());
-  // 经线终点
-  // 多画1度，防止有空白区域
-  const lngEnd = Math.floor(bounds.getEast()) + 1;
-
-  // 网格间隔0.5度
-  const D: number = 0.5;
+const Grid: React.FC<GridsProps> = (props) => {
+  const { lineWidth, range, D } = props;
+  const { latStart, latEnd, lngStart, lngEnd } = range;
 
   // 纬线
   const rows: GridPointsType[] = [];
@@ -75,4 +60,4 @@ const FirstGrids: React.FC<GridsProps> = (props) => {
   );
 };
 
-export default FirstGrids;
+export default Grid;

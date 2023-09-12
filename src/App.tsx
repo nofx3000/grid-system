@@ -1,6 +1,7 @@
 import { MapContainer, TileLayer } from "react-leaflet";
 import _ from "lodash";
 import "leaflet/dist/leaflet.css";
+import "./App.css";
 // 一级网格网
 import Grids from "./components/Grids/Grids";
 // 随鼠标移动的高亮矩形
@@ -8,11 +9,14 @@ import Rect from "./components/Rect/Rect";
 
 function App() {
   return (
-    <div style={{ height: "100vh" }}>
+    <div style={{ height: "100vh", backgroundColor: "#000d4a" }}>
+      <div className="header">
+        <span className="title">地理空间参考网格系统</span>
+      </div>
       <MapContainer
-        style={{ height: "100%" }}
+        style={{ height: "92vh" }}
         // 地图中心点
-        center={[23.52934988543054, 120.60696338212686]}
+        center={[23.52934988543054, 121.30696338212686]}
         // 初始层级
         zoom={8}
         // 最大层级
@@ -27,7 +31,6 @@ function App() {
         ]}
       >
         {/* 随鼠标移动的高亮矩形 */}
-        {/* <Rect></Rect> */}
         <Rect></Rect>
         {/* 一级网格网 */}
         <Grids></Grids>

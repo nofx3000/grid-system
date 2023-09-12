@@ -8,6 +8,15 @@ type GridPointsType = {
   endPoint: CoordsType;
 };
 
+type GridRangeType = {
+  latStart: number;
+  latEnd: number;
+  lngStart: number;
+  lngEnd: number;
+};
+
 interface GridsProps {
   lineWidth: number;
+  range: GridRangeType;
+  D: number;
 }
