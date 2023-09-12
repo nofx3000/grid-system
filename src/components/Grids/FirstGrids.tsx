@@ -2,24 +2,21 @@ import React, { useState, useCallback } from "react";
 import { useMap, FeatureGroup, Polyline } from "react-leaflet";
 import _ from "lodash";
 
-export default function Grids() {
+const FirstGrids: React.FC<GridsProps> = (props) => {
+  const { lineWidth } = props;
   const map = useMap();
+
   // 获得地图边界
   const bounds = map.getBounds();
-  const north = bounds.getNorth();
-  const south = bounds.getSouth();
-  const east = bounds.getEast();
-  const west = bounds.getWest();
-
   // 纬线起点
-  const latStart = Math.floor(south);
+  const latStart = Math.floor(bounds.getSouth());
   // 纬线终点
-  const latEnd = Math.ceil(north);
+  const latEnd = Math.ceil(bounds.getNorth());
   // 经线起点
-  const lngStart = Math.floor(west);
+  const lngStart = Math.floor(bounds.getWest());
   // 经线终点
   // 多画1度，防止有空白区域
-  const lngEnd = Math.floor(east) + 1;
+  const lngEnd = Math.floor(bounds.getEast()) + 1;
 
   // 网格间隔0.5度
   const D: number = 0.5;
@@ -47,7 +44,7 @@ export default function Grids() {
   }
 
   return (
-    <FeatureGroup>
+    <>
       {/* 渲染纬线 */}
       {rows.map((points) => {
         const { startPoint, endPoint } = points;
@@ -57,7 +54,7 @@ export default function Grids() {
               [startPoint.lat as any, startPoint.lng],
               [endPoint.lat as any, endPoint.lng],
             ]}
-            pathOptions={{ weight: 0.5 }}
+            pathOptions={{ weight: lineWidth }}
           ></Polyline>
         );
       })}
@@ -70,10 +67,12 @@ export default function Grids() {
               [startPoint.lat as any, startPoint.lng],
               [endPoint.lat as any, endPoint.lng],
             ]}
-            pathOptions={{ weight: 0.5 }}
+            pathOptions={{ weight: lineWidth }}
           ></Polyline>
         );
       })}
-    </FeatureGroup>
+    </>
   );
-}
+};
+
+export default FirstGrids;

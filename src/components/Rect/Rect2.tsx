@@ -2,7 +2,7 @@ import React, { useState, useCallback } from "react";
 import { useMap, Rectangle } from "react-leaflet";
 import _ from "lodash";
 
-export default function Rect() {
+export default function Rect2() {
   // 高亮框坐标初始画
   const [rect, setRect] = useState({
     topLeft: [0, 0],
@@ -20,7 +20,9 @@ export default function Rect() {
       // 节流函数，解约性能， 100毫秒触发一次鼠标移动事件
       _.throttle((e) => {
         // 根据鼠标位置获得高亮框的四个角坐标
+        // console.log(e.latlng.lat % 1, "----", e.latlng.lng % 1);
         setRect(getRect(e.latlng));
+        console.log("index:", (e.latlng.lat % 1) / 0.25);
       }, 100),
       []
     )
@@ -43,29 +45,20 @@ export default function Rect() {
     const latRem = point.lat % 1;
     // 纬度小数点前正数
     const latInt = Math.floor(point.lat);
+    // 在1度4等分里的第几个网格
+    const latIndex = Math.floor(latRem / 0.25);
     // 高亮框纬度范围
     const latRange: number[] = [];
-    // 如果余数小于0.5，范围就取[纬度整数 —— 纬度整数 + 0.5]
-    if (latRem < 0.5) {
-      latRange[0] = latInt;
-      latRange[1] = latInt + 0.5;
-    } else {
-      // 如果余数大于0.5，范围就取[纬度整数 + 0.5 —— 纬度整数 + 1]
-      latRange[0] = latInt + 0.5;
-      latRange[1] = latInt + 1;
-    }
+    latRange[0] = latInt + latIndex * 0.25;
+    latRange[1] = latInt + (latIndex + 1) * 0.25;
 
     // 经度同理
     const lngRem = point.lng % 1;
     const lngInt = Math.floor(point.lng);
+    const lngIndex = Math.floor(lngRem / 0.25);
     const lngRange: number[] = [];
-    if (lngRem < 0.5) {
-      lngRange[0] = lngInt;
-      lngRange[1] = lngInt + 0.5;
-    } else {
-      lngRange[0] = lngInt + 0.5;
-      lngRange[1] = lngInt + 1;
-    }
+    lngRange[0] = lngInt + lngIndex * 0.25;
+    lngRange[1] = lngInt + (lngIndex + 1) * 0.25;
 
     // 返回高亮框四个角的坐标
     return {

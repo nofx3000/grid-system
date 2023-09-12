@@ -2,9 +2,9 @@ import { MapContainer, TileLayer } from "react-leaflet";
 import _ from "lodash";
 import "leaflet/dist/leaflet.css";
 // 一级网格网
-import Grids from "./components/Grids";
+import Grids from "./components/Grids/Grids";
 // 随鼠标移动的高亮矩形
-import Rect from "./components/Rect";
+import Rect from "./components/Rect/Rect";
 
 function App() {
   return (
@@ -16,7 +16,7 @@ function App() {
         // 初始层级
         zoom={8}
         // 最大层级
-        maxZoom={11}
+        maxZoom={10}
         // 最小层级
         minZoom={8}
         scrollWheelZoom={false}
@@ -27,6 +27,7 @@ function App() {
         ]}
       >
         {/* 随鼠标移动的高亮矩形 */}
+        {/* <Rect></Rect> */}
         <Rect></Rect>
         {/* 一级网格网 */}
         <Grids></Grids>
