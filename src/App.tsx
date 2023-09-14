@@ -1,18 +1,41 @@
+import { Menu, MenuItem, Card, CardContent, Typography } from "@mui/material";
 import { MapContainer, TileLayer } from "react-leaflet";
+import { observer } from "mobx-react";
 import _ from "lodash";
+// style
 import "leaflet/dist/leaflet.css";
 import "./App.css";
 // 一级网格网
 import Grids from "./components/Grids/Grids";
 // 随鼠标移动的高亮矩形
 import Rect from "./components/Rect/Rect";
+//
+import AddDialog from "./components/Dialog/AddDialog";
+// store
+import store from "./store/store";
+// boxes
+import Boxes from "./components/Boxes/Boxes";
 
-function App() {
+const App = () => {
   return (
     <div style={{ height: "100vh", backgroundColor: "#000d4a" }}>
       <div className="header">
         <span className="title">地理空间参考网格系统</span>
       </div>
+      <Card
+        sx={{
+          position: "absolute",
+          right: 5,
+          bottom: 5,
+          zIndex: 9999,
+        }}
+      >
+        <CardContent>
+          <Typography variant="h5" component="div">
+            {store.level}级网格
+          </Typography>
+        </CardContent>
+      </Card>
       <MapContainer
         style={{ height: "92vh" }}
         // 地图中心点
@@ -35,10 +58,30 @@ function App() {
         {/* 一级网格网 */}
         <Grids></Grids>
         {/* 底图 */}
+        <Boxes></Boxes>
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
       </MapContainer>
+      <Menu
+        open={store.menuOpen}
+        anchorEl={store.anchorEl}
+        onClose={() => {
+          store.menuOpen = false;
+        }}
+      >
+        <MenuItem
+          onClick={() => {
+            store.createModalOpen = true;
+            store.menuOpen = false;
+          }}
+        >
+          创建杀伤盒
+        </MenuItem>
+        <MenuItem>编辑</MenuItem>
+        <MenuItem>删除</MenuItem>
+      </Menu>
+      <AddDialog />
     </div>
   );
-}
+};
 
-export default App;
+export default observer(App);

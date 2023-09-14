@@ -2,6 +2,7 @@ import React, { useState, useCallback } from "react";
 import { useMap, FeatureGroup, useMapEvents } from "react-leaflet";
 import _ from "lodash";
 import Grid from "./Grid";
+import store from "../../store/store";
 
 const Grids: React.FC = () => {
   const map = useMap();
@@ -10,6 +11,7 @@ const Grids: React.FC = () => {
   const events = useMapEvents({
     zoom: (e) => {
       setZoom(e.target._zoom);
+      store.level = e.target._zoom - 7;
     },
   });
 
