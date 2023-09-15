@@ -3,9 +3,12 @@
   width: 100%;
   background: url("../public/head_bg.png") no-repeat center center;
   /* background-size: 100% 100%; */
-  position: relative;
+  position: absolute;
+  top: 0;
+  left: 0;
   display: flex;
   justify-content: center;
+  z-index: 999;
 }
 
 .title {

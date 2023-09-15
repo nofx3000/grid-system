@@ -1,4 +1,11 @@
-import { Menu, MenuItem, Card, CardContent, Typography } from "@mui/material";
+import {
+  Menu,
+  MenuItem,
+  Card,
+  CardContent,
+  Typography,
+  Button,
+} from "@mui/material";
 import { MapContainer, TileLayer } from "react-leaflet";
 import { observer } from "mobx-react";
 import _ from "lodash";
@@ -15,12 +22,30 @@ import AddDialog from "./components/Dialog/AddDialog";
 import store from "./store/store";
 // boxes
 import Boxes from "./components/Boxes/Boxes";
+// boxesList
+import BoxesList from "./components/Boxes/BoxesList";
+// codeCard
+import CodeCard from "./components/CodeCard";
 
 const App = () => {
   return (
-    <div style={{ height: "100vh", backgroundColor: "#000d4a" }}>
+    <div style={{ height: "100vh" }}>
       <div className="header">
-        <span className="title">地理空间参考网格系统</span>
+        <span className="title">联合作战火力协同措施管理系统</span>
+        <Button
+          variant="contained"
+          sx={{
+            height: "4vh",
+            position: "absolute",
+            right: "10px",
+            top: "5px",
+          }}
+          onClick={(e) => {
+            store.boxesDrawerOpen = true;
+          }}
+        >
+          查看列表
+        </Button>
       </div>
       <Card
         sx={{
@@ -37,7 +62,7 @@ const App = () => {
         </CardContent>
       </Card>
       <MapContainer
-        style={{ height: "92vh" }}
+        style={{ height: "100vh" }}
         // 地图中心点
         center={[23.52934988543054, 121.30696338212686]}
         // 初始层级
@@ -59,6 +84,8 @@ const App = () => {
         <Grids></Grids>
         {/* 底图 */}
         <Boxes></Boxes>
+        {/* 编码 */}
+        <CodeCard></CodeCard>
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
       </MapContainer>
       <Menu
@@ -80,6 +107,7 @@ const App = () => {
         <MenuItem>删除</MenuItem>
       </Menu>
       <AddDialog />
+      <BoxesList></BoxesList>
     </div>
   );
 };

@@ -8,6 +8,7 @@ const store = observable({
   currentLat: 0,
   currentLng: 0,
   boxes: [],
+  boxesDrawerOpen: false,
 });
 
 export const fetchBoxes = flow(function* () {

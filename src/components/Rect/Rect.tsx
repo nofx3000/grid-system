@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useCallback } from "react";
 import { useMap, useMapEvents } from "react-leaflet";
 import _ from "lodash";
 import Rect1 from "./Rect1";
@@ -8,6 +8,9 @@ import store from "../../store/store";
 import { autorun, action } from "mobx";
 import { observer } from "mobx-react";
 import getRect from "../../utils/getRect";
+import { Card } from "@mui/material";
+import { CalCodes } from "../../utils/CalCode";
+import { LeafletEvent } from "leaflet";
 
 const Rect = () => {
   const map = useMap();
@@ -16,7 +19,6 @@ const Rect = () => {
   // menu显示
   // const [menuOpen, setMenuOpen] = useState<boolean>(false);
   const [zoom, setZoom] = useState<number>(map.getZoom());
-
   // 地图缩放的回调
   const events = useMapEvents({
     zoom: (e) => {
