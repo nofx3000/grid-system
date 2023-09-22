@@ -68,8 +68,8 @@ const AddDialog: React.FC<AddDialogProps> = () => {
           <p>
             {/* @ts-ignores */}
             编码: {CalCodes(store.currentLat, store.currentLng)[store.level]}
-            坐标: {store.currentLat}-----{store.currentLng}
-            反编码: {JSON.stringify(CalCoords(1, "599HV"))}
+            {/* 坐标: {store.currentLat}-----{store.currentLng} */}
+            {/* 反编码: {JSON.stringify(CalCoords(1, "599HV"))} */}
           </p>
           <FormControl fullWidth {...register("type")}>
             <p>杀伤盒类型：</p>
